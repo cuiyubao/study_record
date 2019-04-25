@@ -1,4 +1,4 @@
-package com.study.study_record;
+package com.study;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
