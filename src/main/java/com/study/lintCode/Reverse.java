@@ -7,11 +7,14 @@ package com.study.lintCode;
  */
 public class Reverse {
     public static void main(String[] args) {
-      new Reverse().reverse(1534236469);
+//      new Reverse().reverse(1534236469);
+      new Reverse().reverseInteger(1534236469);
     }
 
     /**
+     * 自己写的
      * 转换有问题的就是有益处的情况
+     *
      * @param x
      * @return
      */
@@ -31,4 +34,25 @@ public class Reverse {
         System.out.println(result);
         return  result;
     }
+
+    /**
+     * 答案
+     * @param n
+     * @return
+     */
+    public int reverseInteger(int n) {
+        int reversed_n = 0;
+
+        while (n != 0) {
+            int temp = reversed_n * 10 + n % 10;
+            n = n / 10;
+            if (temp / 10 != reversed_n) {
+                reversed_n = 0;
+                break;
+            }
+            reversed_n = temp;
+        }
+        return reversed_n;
+    }
 }
+
