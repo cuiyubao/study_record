@@ -4,7 +4,9 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 给定一个字符串，逐个翻转字符串中的每个单词。
@@ -35,7 +37,7 @@ import java.util.List;
  */
 public class ReverseWords {
     public static void main(String[] args) {
-        System.out.println(reverseWords("a good   example"));
+        System.out.println(reverseWords2("a good          example"));
     }
 
     /**
@@ -80,6 +82,20 @@ public class ReverseWords {
         if (builder.length() > 0) builder.deleteCharAt(builder.length() - 1);
         return builder.toString();
     }
+
+    /**
+     * 代码量减少了，但用时增加  内存占用增加
+     * @param s
+     * @return
+     */
+    public static String reverseWords2(String s) {
+        String[] words = s.trim().split(" ");
+        List<String> list=Arrays.stream(words).filter(e->e.length()>0).collect(Collectors.toList());
+        Collections.reverse(list);
+        return String.join(" ", list);
+    }
+
+
 
 
 }
