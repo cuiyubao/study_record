@@ -42,6 +42,11 @@ public class IsValid {
         System.out.println(isValid("()[]{}"));
     }
 
+    /**
+     * 利用栈的思想
+     * @param s
+     * @return
+     */
     public static boolean isValid(String s) {
         if(s.length()==0){
             return true;
