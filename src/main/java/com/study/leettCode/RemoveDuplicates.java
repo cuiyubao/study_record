@@ -1,6 +1,4 @@
-package com.study.lintCode;
-
-import java.util.Arrays;
+package com.study.leettCode;
 
 /**
  * 删除排序数组中的重复项

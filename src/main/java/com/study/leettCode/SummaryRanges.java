@@ -1,4 +1,4 @@
-package com.study.lintCode;
+package com.study.leettCode;
 
 import java.util.ArrayList;
 import java.util.List;

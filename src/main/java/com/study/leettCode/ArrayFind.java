@@ -1,4 +1,4 @@
-package com.study.lintCode;
+package com.study.leettCode;
 
 /**
  * User: cuiyubao

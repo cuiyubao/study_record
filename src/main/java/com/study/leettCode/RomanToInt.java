@@ -1,6 +1,4 @@
-package com.study.lintCode;
-
-import com.sun.xml.internal.fastinfoset.util.CharArray;
+package com.study.leettCode;
 
 import java.util.HashMap;
 import java.util.Map;

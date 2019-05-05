@@ -1,8 +1,6 @@
-package com.study.lintCode;
+package com.study.leettCode;
 
 import java.util.Stack;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 给定一个经过编码的字符串，返回它解码后的字符串。
