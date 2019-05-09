@@ -2,7 +2,7 @@ package com.study.sort;
 
 import java.util.Arrays;
 
-/**
+/**冒泡排序
  * User: cuiyubao
  * Date: 2019/5/7
  * Time: 下午 05:45
