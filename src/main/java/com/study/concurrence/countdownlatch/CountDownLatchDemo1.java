@@ -1,4 +1,4 @@
-package com.study.concurrence;
+package com.study.concurrence.countdownlatch;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
