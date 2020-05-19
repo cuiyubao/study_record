@@ -41,7 +41,7 @@ public class SemaphoreDemo {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println(Thread.currentThread().getName() + "释放了许可证");
+            System.out.println(Thread.currentThread().getName() + "············释放了许可证");
             semaphore.release();
 
 
