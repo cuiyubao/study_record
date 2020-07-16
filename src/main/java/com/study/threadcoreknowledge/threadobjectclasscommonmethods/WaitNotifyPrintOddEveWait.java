@@ -10,14 +10,18 @@ public class WaitNotifyPrintOddEveWait {
     private static int count = 0;
     private static final Object lock = new Object();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         try {
             TimeUnit.MILLISECONDS.sleep(12);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         new Thread(new TurningRunner(), "偶数").start();
-        new Thread(new TurningRunner(), "奇数").start();
+        Thread thread = new Thread(new TurningRunner(), "奇数");
+        thread.start();
+        thread.join();
+        System.out.println("都执行完了");
+
     }
 
     //1. 拿到锁，我们就打印
