@@ -2,13 +2,14 @@ package com.study.DataStructure;
 
 import java.util.*;
 
-/**二叉树的遍历
- *  前序递归遍历算法：访问根结点-->递归遍历根结点的左子树-->递归遍历根结点的右子树
- *
- *  中序递归遍历算法：递归遍历根结点的左子树-->访问根结点-->递归遍历根结点的右子树
- *
- *  后序递归遍历算法：递归遍历根结点的左子树-->递归遍历根结点的右子树-->访问根结点
- *
+/**
+ * 二叉树的遍历
+ * 前序递归遍历算法：访问根结点-->递归遍历根结点的左子树-->递归遍历根结点的右子树
+ * <p>
+ * 中序递归遍历算法：递归遍历根结点的左子树-->访问根结点-->递归遍历根结点的右子树
+ * <p>
+ * 后序递归遍历算法：递归遍历根结点的左子树-->递归遍历根结点的右子树-->访问根结点
+ * <p>
  * User: cuiyubao
  * Date: 2019/4/29
  * Time: 上午 06:41
@@ -28,9 +29,10 @@ public class BinaryTree {
         return A;   //返回根节点
     }
 
-    public void printNode(Node node){
+    public void printNode(Node node) {
         System.out.print(node.getData());
     }
+
     //================================    递归实现start       ===========================
     public void theFirstTraversal(Node root) {  //先序遍历
         printNode(root);
@@ -41,6 +43,7 @@ public class BinaryTree {
             theFirstTraversal(root.getRightNode());
         }
     }
+
     public void theInOrderTraversal(Node root) {  //中序遍历
         if (root.getLeftNode() != null) {
             theInOrderTraversal(root.getLeftNode());
@@ -56,7 +59,7 @@ public class BinaryTree {
         if (root.getLeftNode() != null) {
             thePostOrderTraversal(root.getLeftNode());
         }
-        if(root.getRightNode() != null) {
+        if (root.getRightNode() != null) {
             thePostOrderTraversal(root.getRightNode());
         }
         printNode(root);
@@ -64,18 +67,19 @@ public class BinaryTree {
     //================================    递归实现end      ===========================
 
     //================================    栈实现start      ===========================
+
     /**
      * 非递归先序遍历二叉树
-     * */
+     */
     public static List<Integer> preorderTraversal(Node root) {
-        List<Integer> resultList=new ArrayList<>();
-        Stack<Node> treeStack=new Stack<>();
-        if(root==null) //如果为空树则返回
+        List<Integer> resultList = new ArrayList<>();
+        Stack<Node> treeStack = new Stack<>();
+        if (root == null) //如果为空树则返回
             return resultList;
         treeStack.push(root);
-        while(!treeStack.isEmpty()){
-            Node tempNode=treeStack.pop();
-            if(tempNode!=null){
+        while (!treeStack.isEmpty()) {
+            Node tempNode = treeStack.pop();
+            if (tempNode != null) {
                 resultList.add(tempNode.getData());//访问根节点
                 treeStack.push(tempNode.getRightNode()); //入栈右孩子
                 treeStack.push(tempNode.getLeftNode());//入栈左孩子
@@ -85,27 +89,57 @@ public class BinaryTree {
     }
 
     /**
+     * 非递归中序遍历二叉树
+     */
+    public static List<Integer> preorderTraversal1(Node root) {
+        List<Integer> resultList = new ArrayList<>();
+        Stack<Node> treeStack = new Stack<>();
+        if (root == null) //如果为空树则返回
+            return resultList;
+        treeStack.push(root);
+        while (!treeStack.isEmpty()) {
+            Node tempNode = treeStack.pop();
+            if (tempNode.getRightNode() != null) {
+                treeStack.push(tempNode.getRightNode());
+            }
+            treeStack.push(tempNode);
+            if (tempNode.getLeftNode() != null) {
+                treeStack.push(tempNode.getLeftNode());
+            }
+            if (tempNode.getRightNode() == null && tempNode.getLeftNode() == null) {
+                resultList.add(tempNode.getData());
+            }
+
+//                resultList.add(tempNode.getData());//访问根节点
+//                treeStack.push(tempNode.getRightNode()); //入栈右孩子
+//                treeStack.push(tempNode.getLeftNode());//入栈左孩子
+
+        }
+        return resultList;
+    }
+
+    /**
      * 非递归中序遍历
-     * */
+     */
     public List<Integer> inorderTraversalNonCur(Node root) {
-        List<Integer> visitedList=new ArrayList<>();
-        Map<Node,Integer> visitedNodeMap=new HashMap<>();//保存已访问的节点
-        Stack<Node> toBeVisitedNodes=new Stack<>();//待访问的节点
-        if(root==null)
+        List<Integer> visitedList = new ArrayList<>();
+        Map<Node, Integer> visitedNodeMap = new HashMap<>();//保存已访问的节点
+        Stack<Node> toBeVisitedNodes = new Stack<>();//待访问的节点
+        if (root == null)
             return visitedList;
         toBeVisitedNodes.push(root);
-        while(!toBeVisitedNodes.isEmpty()){
-            Node tempNode=toBeVisitedNodes.peek(); //注意这里是peek而不是pop
-            while(tempNode.getLeftNode()!=null){ //如果该节点的左节点还未被访问，则需先访问其左节点
-                if(visitedNodeMap.get(tempNode.getLeftNode())!=null) //该节点已经被访问（不存在某个节点已被访问但其左节点还未被访问的情况）
+        while (!toBeVisitedNodes.isEmpty()) {
+            Node tempNode = toBeVisitedNodes.peek(); //注意这里是peek而不是pop
+            while (tempNode.getLeftNode() != null) { //如果该节点的左节点还未被访问，则需先访问其左节点
+                if (visitedNodeMap.get(tempNode.getLeftNode()) != null) //该节点已经被访问（不存在某个节点已被访问但其左节点还未被访问的情况）
                     break;
                 toBeVisitedNodes.push(tempNode.getLeftNode());
-                tempNode=tempNode.getLeftNode();
+                tempNode = tempNode.getLeftNode();
             }
-            tempNode=toBeVisitedNodes.pop();//访问节点
+            tempNode = toBeVisitedNodes.pop();//访问节点
             visitedList.add(tempNode.getData());
             visitedNodeMap.put(tempNode, 1);//将节点加入已访问map
-            if(tempNode.getRightNode()!=null) //将右结点入栈
+            if (tempNode.getRightNode() != null) //将右结点入栈
                 toBeVisitedNodes.push(tempNode.getRightNode());
         }
         return visitedList;
@@ -113,41 +147,62 @@ public class BinaryTree {
 
     /**
      * 非递归后序遍历
-     * */
-    public List<Integer> postOrderNonCur(Node root){
-        List<Integer> resultList=new ArrayList<>();
-        if(root==null)
+     */
+    public List<Integer> postOrderNonCur(Node root) {
+        List<Integer> resultList = new ArrayList<>();
+        if (root == null)
             return resultList;
-        Map<Node,Integer> visitedMap=new HashMap<>();
-        Stack<Node> toBeVisitedStack=new Stack<>();
+        Map<Node, Integer> visitedMap = new HashMap<>();
+        Stack<Node> toBeVisitedStack = new Stack<>();
         toBeVisitedStack.push(root);
-        while(!toBeVisitedStack.isEmpty()){
-            Node tempNode=toBeVisitedStack.peek(); //注意这里是peek而不是pop
-            if(tempNode.getLeftNode()==null && tempNode.getRightNode()==null){ //如果没有左右孩子则访问
+        while (!toBeVisitedStack.isEmpty()) {
+            Node tempNode = toBeVisitedStack.peek(); //注意这里是peek而不是pop
+            if (tempNode.getLeftNode() == null && tempNode.getRightNode() == null) { //如果没有左右孩子则访问
                 resultList.add(tempNode.getData());
                 visitedMap.put(tempNode, 1);
                 toBeVisitedStack.pop();
                 continue;
-            }else if(!((tempNode.getLeftNode()!=null&&visitedMap.get(tempNode.getLeftNode())==null )|| (tempNode.getRightNode()!=null && visitedMap.get(tempNode.getRightNode())==null))){
+            } else if (!((tempNode.getLeftNode() != null && visitedMap.get(tempNode.getLeftNode()) == null) || (tempNode.getRightNode() != null && visitedMap.get(tempNode.getRightNode()) == null))) {
                 //如果节点的左右孩子均已被访问            
                 resultList.add(tempNode.getData());
                 toBeVisitedStack.pop();
                 visitedMap.put(tempNode, 1);
                 continue;
             }
-            if(tempNode.getLeftNode()!=null){
-                while(tempNode.getLeftNode()!=null && visitedMap.get(tempNode.getLeftNode())==null){//左孩子没有被访问
+            if (tempNode.getLeftNode() != null) {
+                while (tempNode.getLeftNode() != null && visitedMap.get(tempNode.getLeftNode()) == null) {//左孩子没有被访问
                     toBeVisitedStack.push(tempNode.getLeftNode());
-                    tempNode=tempNode.getLeftNode();
+                    tempNode = tempNode.getLeftNode();
                 }
             }
-            if(tempNode.getRightNode()!=null){
-                if(visitedMap.get(tempNode.getRightNode())==null){//右孩子没有被访问
+            if (tempNode.getRightNode() != null) {
+                if (visitedMap.get(tempNode.getRightNode()) == null) {//右孩子没有被访问
                     toBeVisitedStack.push(tempNode.getRightNode());
                 }
             }
         }
         return resultList;
+    }
+
+    private static List<Integer> levelOrder(Node root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            Node poll = queue.poll();
+            int data = poll.getData();
+            result.add(data);
+            if (poll.getLeftNode() != null) {
+                queue.offer(poll.getLeftNode());
+            }
+            if (poll.getRightNode() != null) {
+                queue.offer(poll.getRightNode());
+            }
+        }
+        return result;
     }
 
 
@@ -156,15 +211,17 @@ public class BinaryTree {
     public static void main(String[] args) {
         BinaryTree tree = new BinaryTree();
         Node root = tree.init();
-        System.out.println("先序遍历");
-        tree.theFirstTraversal(root);
-        System.out.println("");
+//        System.out.println("先序遍历");
+//        tree.theFirstTraversal(root);
+//        System.out.println("");
 //        System.out.println("中序遍历");
 //        tree.theInOrderTraversal(root);
 //        System.out.println("");
 //        System.out.println("后序遍历");
 //        tree.thePostOrderTraversal(root);
 //        System.out.println("");
-       System.out.println(preorderTraversal(root));
+//       System.out.println(preorderTraversal(root));
+       System.out.println(levelOrder(root));
+
     }
 }
