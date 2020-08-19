@@ -1,9 +1,9 @@
 package com.study.DataStructure;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import org.omg.PortableInterceptor.INACTIVE;
+import sun.reflect.generics.tree.Tree;
+
+import java.util.*;
 
 /**
  * @author cuiyubao
@@ -204,6 +204,97 @@ public class Solution {
         }
     }
 
+    public TreeNode searchTree(TreeNode root,int val){
+        if(root==null){
+            return root;
+        }
+        if(root.val==val){
+            return root;
+        }
+        if(root.left!=null){
+            TreeNode treeNode = searchTree(root.left, val);
+            if(treeNode!=null){
+                return treeNode;
+            }else{
+                 if(root.right!=null){
+                     return searchTree(root.right,val);
+                 }
+            }
+        }
+        if(root.right!=null){
+            TreeNode treeNode = searchTree(root.right, val);
+            if(treeNode!=null){
+                return treeNode;
+            }else{
+                 if(root.left!=null){
+                     return searchTree(root.left,val);
+                 }
+            }
+        }
+
+        return null;
+    }
+
+    public TreeNode searchTree1(TreeNode root,int val){
+        if(root==null){
+            return root;
+        }
+        if(root.val==val){
+            return root;
+        }
+        if(root.left!=null){
+            searchTree(root.left,val);
+        }
+        if(root.right!=null){
+            searchTree(root.right,val);
+        }
+        return null;
+    }
+
+    public TreeNode searchTree2(TreeNode root,int val){
+        if(root==null){
+            return root;
+        }
+        if(root.val==val){
+            return root;
+        }
+        if(val>root.val){
+            return searchTree(root.right,val);
+        }else {
+            return  searchTree(root.left,val);
+        }
+    }
+
+    /**
+     * 层序遍历
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> levelOrder(TreeNode root){
+        List<List<Integer>> result = new ArrayList<>();
+        if(root==null){
+            return result;
+        }
+        Queue<TreeNode> queue=new LinkedList<>();
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            int size=queue.size();
+            List<Integer> list=new ArrayList<>();
+            for (int i=0;i<size;i++){
+                TreeNode poll = queue.poll();
+                 list.add(poll.val);
+                 if(poll.left!=null){
+                     queue.offer(poll.left);
+                 }
+                 if(poll.right!=null){
+                     queue.offer(poll.right);
+                 }
+            }
+            result.add(list);
+        }
+        return result;
+    }
+
 
     public TreeNode init() {//注意必须逆序建立，先建立子节点，再逆序往上建立，因为非叶子结点会使用到下面的节点，而初始化是按顺序初始化的，不逆序建立会报错
         TreeNode J = new TreeNode(8, null, null);
@@ -239,8 +330,9 @@ public class Solution {
 //        solution.getMinBSTHight(root);
 //        solution.treePrint(root);
 
-        solution.getMaxDepth(root);
+//        solution.getMaxDepth(root);
 
+        solution.levelOrder(root);
     }
 
     public static void zhongPrint(TreeNode root) {
