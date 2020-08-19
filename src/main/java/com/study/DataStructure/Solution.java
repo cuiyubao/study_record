@@ -83,10 +83,10 @@ public class Solution {
 
             } else if (root.right == null && root.left != null) {
                 root = root.left;
-            }else {
+            } else {
                 TreeNode predecessor = predecessor(root);
-                deleteNode(root,predecessor.val);
-                root.val=predecessor.val;
+                deleteNode(root, predecessor.val);
+                root.val = predecessor.val;
             }
         }
         return root;
@@ -123,39 +123,86 @@ public class Solution {
 
     /**
      * 求二叉树最小深度
+     *
      * @param root
      * @return
      */
-    public int getMinBSTHight(TreeNode root){
-        int size=1;
-        int height=1;
-        Queue<TreeNode> queue=new LinkedList<>();
+    public int getMinBSTHight(TreeNode root) {
+        int size = 1;
+        int height = 1;
+        Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
-        while (!queue.isEmpty()){
-            int y=0;
-            for (int i=0;i<size;i++){
+        while (!queue.isEmpty()) {
+            int y = 0;
+            System.out.println("queue长度：" + queue.size());
+            System.out.println("size：" + size);
+            for (int i = 0; i < size; i++) {
                 TreeNode poll = queue.poll();
-                if(poll.left==null&&poll.right==null){
+                if (poll.left == null && poll.right == null) {
                     return height;
                 }
-                if(poll.left!=null){
+                if (poll.left != null) {
                     queue.offer(poll.left);
                     y++;
                 }
-                if(poll.right!=null){
+                if (poll.right != null) {
                     queue.offer(poll.right);
                     y++;
                 }
             }
-            size=y;
+            size = y;
             height++;
         }
 
         return height;
     }
 
+    /**
+     * 求二叉树最小深度
+     *
+     * @param root
+     * @return
+     */
+    public void treePrint(TreeNode root) {
+        int size = 1;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int y = 0;
+            for (int i = 0; i < size; i++) {
+                TreeNode poll = queue.poll();
+                System.out.print(poll.val + "  ");
+                if (poll.left != null) {
+                    queue.offer(poll.left);
+//                    System.out.print(poll.left.val+"  ");
+                    y++;
+                }
+                if (poll.right != null) {
+                    queue.offer(poll.right);
+//                    System.out.print(poll.right.val+"  ");
+                    y++;
+                }
+            }
+            size = y;
+            System.out.println("");
+        }
+
+    }
 
 
+    /**获取树的最大深度
+     * @param root
+     * @return
+     */
+    public int getMaxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        } else if (root.right == null && root.left == null) {
+            return 1;
+        } else {
+            return Math.max(getMaxDepth(root.left), getMaxDepth(root.right)) + 1;
+        }
+    }
 
 
     public TreeNode init() {//注意必须逆序建立，先建立子节点，再逆序往上建立，因为非叶子结点会使用到下面的节点，而初始化是按顺序初始化的，不逆序建立会报错
@@ -189,7 +236,10 @@ public class Solution {
         TreeNode root = solution.init();
 //        solution.deleteNode(root, 6);
 //        zhongPrint(root);
-        solution.getMinBSTHight(root);
+//        solution.getMinBSTHight(root);
+//        solution.treePrint(root);
+
+        solution.getMaxDepth(root);
 
     }
 
