@@ -3,6 +3,7 @@ package com.study.DataStructure;
 import org.omg.PortableInterceptor.INACTIVE;
 import sun.reflect.generics.tree.Tree;
 
+import javax.swing.tree.TreeNode;
 import java.util.*;
 
 /**
@@ -190,7 +191,9 @@ public class Solution {
     }
 
 
-    /**获取树的最大深度
+    /**
+     * 获取树的最大深度
+     *
      * @param root
      * @return
      */
@@ -204,96 +207,151 @@ public class Solution {
         }
     }
 
-    public TreeNode searchTree(TreeNode root,int val){
-        if(root==null){
+    public TreeNode searchTree(TreeNode root, int val) {
+        if (root == null) {
             return root;
         }
-        if(root.val==val){
+        if (root.val == val) {
             return root;
         }
-        if(root.left!=null){
+        if (root.left != null) {
             TreeNode treeNode = searchTree(root.left, val);
-            if(treeNode!=null){
+            if (treeNode != null) {
                 return treeNode;
-            }else{
-                 if(root.right!=null){
-                     return searchTree(root.right,val);
-                 }
+            } else {
+                if (root.right != null) {
+                    return searchTree(root.right, val);
+                }
             }
         }
-        if(root.right!=null){
+        if (root.right != null) {
             TreeNode treeNode = searchTree(root.right, val);
-            if(treeNode!=null){
+            if (treeNode != null) {
                 return treeNode;
-            }else{
-                 if(root.left!=null){
-                     return searchTree(root.left,val);
-                 }
+            } else {
+                if (root.left != null) {
+                    return searchTree(root.left, val);
+                }
             }
         }
 
         return null;
     }
 
-    public TreeNode searchTree1(TreeNode root,int val){
-        if(root==null){
+    public TreeNode searchTree1(TreeNode root, int val) {
+        if (root == null) {
             return root;
         }
-        if(root.val==val){
+        if (root.val == val) {
             return root;
         }
-        if(root.left!=null){
-            searchTree(root.left,val);
+        if (root.left != null) {
+            searchTree(root.left, val);
         }
-        if(root.right!=null){
-            searchTree(root.right,val);
+        if (root.right != null) {
+            searchTree(root.right, val);
         }
         return null;
     }
 
-    public TreeNode searchTree2(TreeNode root,int val){
-        if(root==null){
+    public TreeNode searchTree2(TreeNode root, int val) {
+        if (root == null) {
             return root;
         }
-        if(root.val==val){
+        if (root.val == val) {
             return root;
         }
-        if(val>root.val){
-            return searchTree(root.right,val);
-        }else {
-            return  searchTree(root.left,val);
+        if (val > root.val) {
+            return searchTree(root.right, val);
+        } else {
+            return searchTree(root.left, val);
         }
     }
 
     /**
      * 层序遍历
+     *
      * @param root
      * @return
      */
-    public List<List<Integer>> levelOrder(TreeNode root){
+    public List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> result = new ArrayList<>();
-        if(root==null){
+        if (root == null) {
             return result;
         }
-        Queue<TreeNode> queue=new LinkedList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
-        while(!queue.isEmpty()){
-            int size=queue.size();
-            List<Integer> list=new ArrayList<>();
-            for (int i=0;i<size;i++){
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
                 TreeNode poll = queue.poll();
-                 list.add(poll.val);
-                 if(poll.left!=null){
-                     queue.offer(poll.left);
-                 }
-                 if(poll.right!=null){
-                     queue.offer(poll.right);
-                 }
+                list.add(poll.val);
+                if (poll.left != null) {
+                    queue.offer(poll.left);
+                }
+                if (poll.right != null) {
+                    queue.offer(poll.right);
+                }
             }
             result.add(list);
         }
         return result;
     }
+
+    /**
+     * 二叉搜索树插入
+     *
+     * @param root
+     * @param val
+     * @return
+     */
+    public TreeNode insertIntoBST(TreeNode root, int val) {
+        if (root == null) {
+            return new TreeNode(val, null, null);
+        }
+
+        if (val == root.val) {
+            return root;
+        }
+        if (val > root.val) {
+            if (root.right == null) {
+                TreeNode addNode = new TreeNode(val, null, null);
+                root.right = addNode;
+            } else {
+                root.right = insertIntoBST(root.right, val);
+            }
+        }
+        if (val < root.val) {
+            if (root.left == null) {
+                TreeNode addNode = new TreeNode(val, null, null);
+                root.left = addNode;
+            } else {
+                root.left = insertIntoBST(root.left, val);
+            }
+        }
+        return root;
+    }
+
+    /**
+     * 将有序数组转换为二叉搜索树
+     * @param nums
+     * @return
+     */
+    public TreeNode sortedArrayToBST(int[] nums) {
+        if(nums.length==0){
+            return null;
+        }
+        int top = nums.length / 2;
+        int num = nums[top];
+        TreeNode root = new TreeNode(num, null, null);
+        if(top>0){
+            root.left=sortedArrayToBST(Arrays.copyOfRange(nums,0,top));
+            root.right=sortedArrayToBST(Arrays.copyOfRange(nums,top+1,nums.length));
+        }
+        return root;
+    }
+
 
 
     public TreeNode init() {//注意必须逆序建立，先建立子节点，再逆序往上建立，因为非叶子结点会使用到下面的节点，而初始化是按顺序初始化的，不逆序建立会报错
@@ -306,7 +364,67 @@ public class Solution {
         TreeNode C = new TreeNode(9, F, null);
         TreeNode B = new TreeNode(3, D, E);
         TreeNode A = new TreeNode(6, B, C);
+
+
         return A;   //返回根节点
+    }
+
+
+    /**
+     * 是否是真二叉搜索树
+     *
+     * @param root
+     * @return
+     */
+    public boolean isValidBST(TreeNode root) {
+        if (root == null) {
+            return false;
+        }
+        if (root.left == null && root.right == null) {
+            return true;
+        }
+        List<Integer> list = new ArrayList<>();
+        list = isTrueTree(root, list);
+        if (list.size() == 1) {
+            return true;
+        }
+        for (int i = 1; i < list.size(); i++) {
+            if (list.get(i) <= list.get(i - 1)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    public List<Integer> isTrueTree(TreeNode root, List<Integer> list) {
+        if (root.left != null) {
+            isTrueTree(root.left, list);
+        }
+        list.add(root.val);
+        if (root.right != null) {
+            isTrueTree(root.right, list);
+        }
+        return list;
+    }
+
+    public int getMinimumDifference(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        int min = Integer.MAX_VALUE;
+        int pre = 0;
+        list = zhong(root, list);
+        for (int i = 0; i < list.size(); i++) {
+            int object = list.get(i);
+            if (i != 0) {
+                min = Math.min(object - pre, min);
+                if (min == 1) {
+                    return min;
+                }
+            }
+            pre = object;
+        }
+
+        return min;
     }
 
 
@@ -318,9 +436,30 @@ public class Solution {
         if (root.right != null) {
             zhong(root.right, list);
         }
-
         return list;
     }
+
+    int pre = Integer.MIN_VALUE;
+    int min = Integer.MAX_VALUE;
+
+    public int getMinimumDifference1(TreeNode root) {
+        inOrder(root);
+        return min;
+    }
+
+    public void inOrder(TreeNode root) {
+        if (root.left != null) {
+            inOrder(root.left);
+        }
+        if (pre > -1) {
+            min = Math.min(min, root.val - pre);
+        }
+        pre = root.val;
+        if (root.right != null) {
+            inOrder(root.right);
+        }
+    }
+
 
     public static void main(String[] args) {
         Solution solution = new Solution();
@@ -332,13 +471,13 @@ public class Solution {
 
 //        solution.getMaxDepth(root);
 
-        solution.levelOrder(root);
+//        solution.levelOrder(root);
+//        solution.insertIntoBST(root,10);
+//        solution.isTrueTree(root, new ArrayList<>());
+//        solution.getMinimumDifference1(root);
+         int[] nums=new int[]{0,1,2,3,4,5};
+        TreeNode treeNode = solution.sortedArrayToBST(nums);
     }
 
-    public static void zhongPrint(TreeNode root) {
-        Solution solution = new Solution();
-        List<Integer> zhong = solution.zhong(root, new ArrayList<>());
-        System.out.println("中序遍历:" + zhong);
-    }
 
 }
