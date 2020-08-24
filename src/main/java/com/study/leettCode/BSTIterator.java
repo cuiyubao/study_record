@@ -4,9 +4,8 @@ package com.study.leettCode;
 import com.study.DataStructure.Solution;
 import com.study.DataStructure.tree.TreeNode;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 二叉树迭代器
@@ -15,40 +14,80 @@ import java.util.Queue;
  * @date 2020/8/23 下午 01:06
  */
 public class BSTIterator {
-    Queue<Integer> queue = new LinkedList<>();
+    //    Queue<Integer> queue = new LinkedList<>();
+//
+//    public BSTIterator(TreeNode root) {
+//        if(root!=null){
+//            zhong(root);
+//        }
+//    }
+//
+//    public void zhong(TreeNode root) {
+//        if (root.left != null) {
+//            zhong(root.left);
+//        }
+//        queue.offer(root.val);
+//        if (root.right != null) {
+//            zhong(root.right);
+//        }
+//    }
+//
+//    /**
+//     * @return the next smallest number
+//     */
+//    public int next() {
+//        return queue.poll();
+//    }
+//
+//    /**
+//     * @return whether we have a next smallest number
+//     */
+//    public boolean hasNext() {
+//        return !queue.isEmpty();
+//    }
+    Stack<TreeNode> stack;
 
     public BSTIterator(TreeNode root) {
-        if(root!=null){
-            zhong(root);
-        }
+
+        // 递归模拟堆栈
+        this.stack = new Stack<TreeNode>();
+
+        // 请记住，该算法始于以根节点为输入的对helper函数的调用
+        this._leftmostInorder(root);
     }
 
-    public void zhong(TreeNode root) {
-        if (root.left != null) {
-            zhong(root.left);
-        }
-        queue.offer(root.val);
-        if (root.right != null) {
-            zhong(root.right);
+    private void _leftmostInorder(TreeNode root) {
+        System.out.println(stack.stream().map(m->m.val).collect(Collectors.toList()));
+        // 对于给定的节点，将树的最左分支下的所有元素添加到堆栈中。
+        while (root != null) {
+            this.stack.push(root);
+            root = root.left;
+            System.out.println(stack.stream().map(m->m.val).collect(Collectors.toList()));
         }
     }
 
     /**
-     * @return the next smallest number
+     * @return 下一个最小的数字
      */
     public int next() {
-        return queue.poll();
+        System.out.println(stack.stream().map(m->m.val).collect(Collectors.toList()));
+        // 堆栈顶部的节点是下一个最小的元素
+        TreeNode topmostNode = this.stack.pop();
+
+        //需要保持不变。如果节点有合适的子代，请为合适的子代调用 helper函数
+        if (topmostNode.right != null) {
+            this._leftmostInorder(topmostNode.right);
+        }
+        System.out.println(stack.stream().map(m->m.val).collect(Collectors.toList()));
+        return topmostNode.val;
     }
 
     /**
-     * @return whether we have a next smallest number
+     * @return我们是否有下一个最小的数字
      */
     public boolean hasNext() {
-        return !queue.isEmpty();
+        return this.stack.size() > 0;
     }
-
-
-
 
 
     public static TreeNode init() {//注意必须逆序建立，先建立子节点，再逆序往上建立，因为非叶子结点会使用到下面的节点，而初始化是按顺序初始化的，不逆序建立会报错
@@ -68,8 +107,17 @@ public class BSTIterator {
         TreeNode initRoot = init();
 
         BSTIterator bstIterator = new BSTIterator(initRoot);
-        System.out.println(bstIterator.queue);
-
+        bstIterator.next();
+        bstIterator.next();
+        bstIterator.next();
+        bstIterator.next();
+        bstIterator.next();
+        bstIterator.next();
+        bstIterator.next();
+        bstIterator.next();
+        bstIterator.next();
+        bstIterator.next();
+        bstIterator.next();
     }
 
 }
