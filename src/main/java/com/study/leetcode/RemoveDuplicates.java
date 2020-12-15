@@ -1,4 +1,4 @@
-package com.study.leettCode;
+package com.study.leetcode;
 
 /**
  * 删除排序数组中的重复项

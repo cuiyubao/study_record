@@ -1,4 +1,4 @@
-package com.study.leettCode;
+package com.study.leetcode;
 
 /**
  * 移除元素

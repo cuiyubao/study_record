@@ -11,7 +11,7 @@ import java.util.*;
  * @date 2020/8/18 下午 01:39
  */
 public class Solution {
-    public class TreeNode {
+    public static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
@@ -354,7 +354,7 @@ public class Solution {
 
 
 
-    public TreeNode init() {//注意必须逆序建立，先建立子节点，再逆序往上建立，因为非叶子结点会使用到下面的节点，而初始化是按顺序初始化的，不逆序建立会报错
+    public static TreeNode init() {//注意必须逆序建立，先建立子节点，再逆序往上建立，因为非叶子结点会使用到下面的节点，而初始化是按顺序初始化的，不逆序建立会报错
         TreeNode J = new TreeNode(8, null, null);
         TreeNode H = new TreeNode(4, null, null);
         TreeNode G = new TreeNode(2, null, null);
@@ -364,8 +364,6 @@ public class Solution {
         TreeNode C = new TreeNode(9, F, null);
         TreeNode B = new TreeNode(3, D, E);
         TreeNode A = new TreeNode(6, B, C);
-
-
         return A;   //返回根节点
     }
 
@@ -447,6 +445,26 @@ public class Solution {
         return min;
     }
 
+    int rangeSum=0;
+
+
+    public int rangeSumBST(TreeNode root, int L, int R) {
+        if (root.left != null) {
+            inOrder(root.left);
+        }
+        if (pre > -1) {
+            min = Math.min(min, root.val - pre);
+        }
+        if(root.val>L&&root.val<R){
+            rangeSum+=root.val;
+        }
+        if (root.right != null) {
+            inOrder(root.right);
+        }
+        return rangeSum;
+    }
+
+
     public void inOrder(TreeNode root) {
         if (root.left != null) {
             inOrder(root.left);
@@ -459,6 +477,87 @@ public class Solution {
             inOrder(root.right);
         }
     }
+
+    /**
+     * 两个节点的最近公共祖先
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==null){
+            return null;
+        }
+        List<TreeNode> pThrough = new ArrayList<>();
+        List<TreeNode> qThrough = new ArrayList<>();
+        throughNode(root,p.val,pThrough);
+        throughNode(root,q.val,qThrough);
+        pThrough.retainAll(qThrough);
+        return pThrough.get(pThrough.size()-1);
+    }
+
+    public List<TreeNode> throughNode(TreeNode root,int val,List<TreeNode> list){
+        if(root.val>val){
+            list.add(root);
+            throughNode(root.left,val,list);
+        }else if(root.val<val){
+            list.add(root);
+            throughNode(root.right,val,list);
+        }else{
+            list.add(root);
+        }
+        return list;
+    }
+
+    int kFlag=0;
+    TreeNode knode=null;
+    public int kthSmallest(TreeNode root, int k) {
+       return getKnode(root,k).val;
+    }
+
+    public TreeNode getKnode(TreeNode root, int k) {
+        if (root.left != null) {
+            knode= getKnode(root.left,k);
+        }
+        if(knode!=null){
+            return knode;
+        }
+        kFlag++;
+        if(kFlag==k){
+            return root;
+        }
+        if (root.right != null) {
+            return getKnode(root.right,k);
+        }
+        return knode;
+    }
+
+
+    /**
+     * 通过栈的方式进行中序遍历
+     * @param root
+     * @param k
+     * @return
+     */
+    public int kthSmallest1(TreeNode root, int k) {
+        LinkedList<TreeNode> stack = new LinkedList<TreeNode>();
+
+        while (true) {
+            while (root != null) {
+                stack.add(root);
+                root = root.left;
+            }
+            root = stack.removeLast();
+            if (--k == 0) {
+                return root.val;
+            }
+            root = root.right;
+        }
+    }
+
+
+
 
 
     public static void main(String[] args) {
@@ -475,8 +574,12 @@ public class Solution {
 //        solution.insertIntoBST(root,10);
 //        solution.isTrueTree(root, new ArrayList<>());
 //        solution.getMinimumDifference1(root);
-         int[] nums=new int[]{0,1,2,3,4,5};
-        TreeNode treeNode = solution.sortedArrayToBST(nums);
+//         int[] nums=new int[]{};
+//        TreeNode treeNode = solution.sortedArrayToBST(nums);
+//        TreeNode three=new TreeNode(3,null,null);
+//        TreeNode five=new TreeNode(5,null,null);
+//        solution.lowestCommonAncestor(root,three,five);
+        solution.kthSmallest1(root,7);
     }
 
 

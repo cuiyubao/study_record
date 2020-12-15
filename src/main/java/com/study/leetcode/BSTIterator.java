@@ -1,7 +1,6 @@
-package com.study.leettCode;
+package com.study.leetcode;
 
 
-import com.study.DataStructure.Solution;
 import com.study.DataStructure.tree.TreeNode;
 
 import java.util.*;
