@@ -6,10 +6,14 @@ package com.study.leetcode;
  * Time: 下午 11:02
  */
 public class ListNode {
-    int val;
-    ListNode next;
+    public int val;
+    public ListNode next;
 
-    ListNode(int x) {
+    public ListNode(int x,ListNode node) {
+        val = x;
+        next = node;
+    }
+    public ListNode(int x) {
         val = x;
         next = null;
     }
