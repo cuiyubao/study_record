@@ -71,7 +71,7 @@ public class LinkedListCycleIi {
         ListNode node3 = new ListNode(3, node4);
         ListNode node2 = new ListNode(2, node3);
         ListNode node1 = new ListNode(1, node2);
-        node5.next=node2;
+        node5.next = node2;
         solution.detectCycle(node1);
     }
 
@@ -89,6 +89,49 @@ public class LinkedListCycleIi {
      * }
      */
     public class Solution {
+        /**
+         * 使用双指针[伪双指针，官方题解中的双指针对比快慢指针走的路程分析]
+         *
+         * @param head
+         * @return
+         */
+        public ListNode detectCycle1(ListNode head) {
+            if (head == null || head.next == null) {
+                return null;
+            }
+            ListNode checkNode=head;
+            while (checkNode!=null){
+                ListNode check = check(checkNode);
+                if(check==null){
+                    checkNode=checkNode.next;
+                }else{
+                    return check;
+                }
+            }
+            return null;
+        }
+        public ListNode check(ListNode checkNode){
+            int number=0;
+            ListNode node=checkNode.next;
+            while(node!=null){
+                if(checkNode==node){
+                    return checkNode;
+                }
+                node=node.next;
+                number++;
+                if(number>10000){
+                    break;
+                }
+            }
+            return null;
+        }
+
+        /**
+         * 使用额外空间的解法
+         *
+         * @param head
+         * @return
+         */
         public ListNode detectCycle(ListNode head) {
             if (head == null || head.next == null) {
                 return null;
@@ -104,6 +147,7 @@ public class LinkedListCycleIi {
             }
             return null;
         }
+
     }
 //leetcode submit region end(Prohibit modification and deletion)
 
