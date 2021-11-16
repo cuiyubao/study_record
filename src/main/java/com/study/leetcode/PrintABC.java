@@ -1,6 +1,6 @@
 package com.study.leetcode;
 
-import lombok.extern.slf4j.Slf4j;
+
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -10,7 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author cuiyubao
  * @date 2020/12/19/019 下午 11:27
  */
-@Slf4j
+
 class PrintABC {
 
     //通过JDK5中的锁来保证线程的访问的互斥
@@ -24,7 +24,6 @@ class PrintABC {
                 lock.lock();
                 System.out.println("ThreadA获取到锁：" + i);
                 if (state % 3 == 1) {
-                    log.info("state:[{}],state % 3 :[{}]", state, state % 3);
                     System.out.println("1");
                     state++;
                     i++;
@@ -41,7 +40,6 @@ class PrintABC {
                 lock.lock();
                 System.out.println("ThreadB获取到锁：" + i);
                 if (state % 3 == 2) {
-                    log.info("state:[{}],state % 3 :[{}]", state, state % 3);
                     System.out.println("2");
                     state++;
                     i++;
@@ -58,15 +56,9 @@ class PrintABC {
                 lock.lock();
                 System.out.println("ThreadC获取到锁：" + i);
                 if (state % 3 == 0) {
-                    log.info("state:[{}],state % 3 :[{}]", state, state % 3);
                     System.out.println("3");
                     state++;
                     i++;
-                }
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
                 lock.unlock();
             }

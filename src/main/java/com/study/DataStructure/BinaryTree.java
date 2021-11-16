@@ -205,6 +205,33 @@ public class BinaryTree {
         return result;
     }
 
+    /**
+     * 层序遍历
+     * @param root
+     * @return
+     */
+    private static List<Integer> layerOrder(Node root){
+        List<Integer> result=new ArrayList<>();
+        if (root==null){
+            return result;
+        }
+        Queue<Node> queue = new ArrayDeque<>();
+        queue.add(root);
+        while (!queue.isEmpty()){
+            Node poll = queue.poll();
+            result.add(poll.getData());
+            if (poll.getLeftNode()!=null){
+                queue.add(poll.getLeftNode());
+            }
+            if (poll.getRightNode()!=null){
+                queue.add(poll.getRightNode());
+            }
+        }
+        return result;
+    }
+
+
+
 
 //================================    栈实现end     ===========================
 
@@ -221,7 +248,8 @@ public class BinaryTree {
 //        tree.thePostOrderTraversal(root);
 //        System.out.println("");
 //       System.out.println(preorderTraversal(root));
-       System.out.println(levelOrder(root));
+
+       System.out.println(layerOrder(root));
 
     }
 }
