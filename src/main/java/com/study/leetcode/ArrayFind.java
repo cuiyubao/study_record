@@ -19,11 +19,11 @@ class ArrayFind {
     
     public static void main(String[] args){
         int [] array=new int[4];
-        array[0]=3;
-        array[1]=4;
-        array[2]=5;
-        array[3]=6;
-        System.out.println(twoSum(array,10));
+        array[0]=2;
+        array[1]=7;
+        array[2]=11;
+        array[3]=15;
+        System.out.println(twoSum1(array,9));
     }
     
     public static int[] twoSum(int[] nums, int target) {
@@ -32,11 +32,32 @@ class ArrayFind {
         for(int i=0;i<size;i++){
             for(int j=i+1;j<size;j++){
                 if(nums[i]+nums[j]==target){
-                    arrayIn[0]=i;
-                    arrayIn[1]=j;
+                    arrayIn[0]=i+1;
+                    arrayIn[1]=j+1;
                 }
             }
         }
         return arrayIn;
     }
+
+    public static int[] twoSum1(int[] nums, int target) {
+        int[] arrayIn = new int[2];
+        int i = 0;
+        int j = nums.length - 1;
+        while (i < j) {
+            int sum = nums[i] + nums[j];
+            if (sum < target) {
+                i++;
+            } else if (sum > target) {
+                j--;
+            } else {
+                arrayIn[0] = i+1;
+                arrayIn[1] = j+1;
+                break;
+            }
+        }
+        return arrayIn;
+    }
+
+
 }
