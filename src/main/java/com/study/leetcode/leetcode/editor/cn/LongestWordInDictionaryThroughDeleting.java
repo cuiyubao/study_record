@@ -33,7 +33,6 @@ package com.study.leetcode.leetcode.editor.cn;
 // Related Topics 数组 双指针 字符串 排序 👍 267 👎 0
 
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,7 +45,58 @@ public class LongestWordInDictionaryThroughDeleting {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+
+        /**
+         *
+         * @param s
+         * @param dictionary
+         * @return
+         */
         public String findLongestWord(String s, List<String> dictionary) {
+            String result = "";
+            for (String target : dictionary) {
+                if (result.length() > target.length() || (result.length() == target.length() && result.compareTo(target) < 0)) {
+                    continue;
+                }
+                if (isSubString(s, target)) {
+                    result = target;
+                }
+            }
+            return result;
+        }
+
+        /**
+         * 判断是否是目标字符串的子串
+         *
+         * @param s
+         * @param target
+         * @return
+         */
+        public boolean isSubString(String s, String target) {
+            int j = 0;
+            char[] sChars = s.toCharArray();
+            char[] targetChars = target.toCharArray();
+            for (int i = 0; i < sChars.length; i++) {
+                if (j < target.length() && sChars[i] == targetChars[j]) {
+                    j++;
+                }
+            }
+            return j == target.length();
+        }
+
+
+        //*************************//
+
+        /**
+         * 自己的方法
+         * 思路：先对目标字符串进行排序,根据优先级
+         * 之后再遍历目标字符串看能不能在原字符串中找到，找到返回。
+         *
+         * @param s
+         * @param dictionary
+         * @return
+         */
+        public String findLongestWord1(String s, List<String> dictionary) {
             dictionary.sort((String s1, String s2) -> {
                 if (s1.length() > s2.length()) {
                     return -1;
