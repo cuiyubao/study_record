@@ -45,44 +45,75 @@ package com.study.leetcode.leetcode.editor.cn;
 // Related Topics 哈希表 字符串 桶排序 计数 排序 堆（优先队列） 👍 350 👎 0
 
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class SortCharactersByFrequency {
 
     public static void main(String[] args) {
-        Solution solution=new SortCharactersByFrequency().new Solution();
-        System.out.println(solution.frequencySort("eeeeaaadrr"));
+        Solution solution = new SortCharactersByFrequency().new Solution();
+        System.out.println(solution.frequencySort("cccaaa"));
     }
- 
+
     //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public String frequencySort(String s) {
-        char[] array = s.toCharArray();
-        Map<Character, Integer> map = new HashMap<>();
-        for (char c : array) {
-            map.put(c,map.getOrDefault(c,0)+1);
+    class Solution {
+        public String frequencySort(String s) {
+            char[] array = s.toCharArray();
+            Map<Character, Integer> map = new HashMap<>();
+            for (char c : array) {
+                map.put(c, map.getOrDefault(c, 0) + 1);
+            }
+            List<Character>[] listArrays=new List[s.length()+1];
+            map.forEach((key,value)->{
+                List<Character>  innerList = listArrays[value];
+                if (innerList==null){
+                    innerList=new ArrayList<>();
+                    innerList.add(key);
+                    listArrays[value]=innerList;
+                }else {
+                    innerList.add(key);
+                }
+            });
+            StringBuffer stringBuffer = new StringBuffer();
+            for (int i = listArrays.length - 1; i >= 0; i--) {
+                List<Character> list = listArrays[i];
+                if (list!=null){
+
+                        for (Character character : list) {
+                            for (int j = 0; j < i; j++) {
+                                stringBuffer.append(character);
+                            }
+                        }
+
+                }
+            }
+            return stringBuffer.toString();
         }
-        PriorityQueue<Map.Entry<Character,Integer>> queue=new PriorityQueue<Map.Entry<Character,Integer>>((m1,m2)->{
-            return m2.getValue()-m1.getValue();
-        });
-        for (Map.Entry<Character,Integer> m:map.entrySet()){
-               queue.add(m);
+
+        public String frequencySort1(String s) {
+            char[] array = s.toCharArray();
+            Map<Character, Integer> map = new HashMap<>();
+            for (char c : array) {
+                map.put(c, map.getOrDefault(c, 0) + 1);
+            }
+            PriorityQueue<Map.Entry<Character, Integer>> queue = new PriorityQueue<Map.Entry<Character, Integer>>((m1, m2) -> {
+                return m2.getValue() - m1.getValue();
+            });
+            for (Map.Entry<Character, Integer> m : map.entrySet()) {
+                queue.add(m);
+            }
+            char[] result = new char[s.length()];
+            int index = 0;
+            for (int i = 0; i < map.size(); i++) {
+                Map.Entry<Character, Integer> entry = queue.poll();
+                Integer value = entry.getValue();
+                Character key = entry.getKey();
+                for (Integer j = 0; j < value; j++) {
+                    result[index++] = key;
+                }
+            }
+            return new String(result);
         }
-       char[] result= new char[s.length()];
-       int index=0;
-       for (int i=0;i<map.size();i++){
-           Map.Entry<Character, Integer> entry = queue.poll();
-           Integer value = entry.getValue();
-           Character key = entry.getKey();
-           for (Integer j = 0; j < value; j++) {
-               result[index++]=key;
-           }
-       }
-        return new String(result);
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
