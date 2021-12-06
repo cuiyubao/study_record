@@ -58,12 +58,29 @@ public class FindSmallestLetterGreaterThanTarget {
 
     public static void main(String[] args) {
         Solution solution = new FindSmallestLetterGreaterThanTarget().new Solution();
-        solution.nextGreatestLetter(new char[]{'c','f','j'},'k');
+        System.out.println(solution.nextGreatestLetter(new char[]{'c', 'f', 'j'}, 'k'));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public char nextGreatestLetter(char[] letters, char target) {
+            int left=0;
+            int right=letters.length;
+            while (left<right){
+                int mid=(left+right)/2;
+                if (letters[mid]==target){
+                    left=mid+1;
+                }else if (letters[mid]>target){
+                    right=mid;
+                }else if (letters[mid]<target){
+                    left=mid+1;
+                }
+            }
+            return right==letters.length?letters[0]:letters[right];
+        }
+
+
+        public char nextGreatestLetter1(char[] letters, char target) {
             for (char letter : letters) {
                 if (letter>target){
                     return letter;
