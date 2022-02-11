@@ -56,12 +56,43 @@ public class LongestSubstringWithoutRepeatingCharacters {
 
     public static void main(String[] args) {
         Solution solution = new LongestSubstringWithoutRepeatingCharacters().new Solution();
-        solution.lengthOfLongestSubstring("abba");
+        System.out.println(solution.lengthOfLongestSubstring("abcabcbb"));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+
+        /**
+         * 滑动窗口方法
+         * @param s
+         * @return
+         */
         public int lengthOfLongestSubstring(String s) {
+            // 记录结果
+            int len = 0;
+            int left = 0, right = 0;
+            char[] chars = s.toCharArray();
+            Map<Character, Integer> map = new HashMap<>();
+            while (right < chars.length) {
+                char rChar = chars[right];
+                right++;
+                // 进行窗口内数据的一系列更新
+                map.put(rChar, map.getOrDefault(rChar, 0) + 1);
+                // 判断左侧窗口是否要收缩
+                while (map.getOrDefault(rChar,0) > 1) {
+                    char lChar = chars[left];
+                    // 进行窗口内数据的一系列更新
+                    map.put(lChar, map.get(lChar) - 1);
+                    left++;
+                }
+                // 在这里更新答案
+                len = Math.max(len, right - left);
+            }
+            return len;
+        }
+
+
+        public int lengthOfLongestSubstring2(String s) {
             int n = s.length(), result = 0;
             Map<Character, Integer> map = new HashMap<>();
             for (int right = 0, left = 0; right < n; right++) {
