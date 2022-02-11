@@ -33,7 +33,7 @@ public class KthLargestElementInAnArray {
 
     public static void main(String[] args) {
         Solution solution = new KthLargestElementInAnArray().new Solution();
-        solution.findKthLargest(new int[]{1},1);
+        System.out.println(solution.findKthLargest(new int[]{1,2,3,4}, 2));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
@@ -41,19 +41,8 @@ public class KthLargestElementInAnArray {
         public int findKthLargest(int[] nums, int k) {
             //先排序
             quickSort(nums,0,nums.length-1);
-            int pre=Integer.MIN_VALUE;
-            for (int i = nums.length - 1; i >= 0; i--) {
-               int num=nums[i];
-                if (num!=pre){
-                    k--;
-                }
-                if (k==0){
-                    return num;
-                }
-            }
-            return 0;
+            return nums[nums.length-k];
         }
-
         /**
          * 快速排序
          *
