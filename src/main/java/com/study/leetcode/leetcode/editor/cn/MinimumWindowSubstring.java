@@ -49,6 +49,7 @@ package com.study.leetcode.leetcode.editor.cn;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class MinimumWindowSubstring {
 
@@ -80,7 +81,7 @@ public class MinimumWindowSubstring {
                 // 进行窗口内数据的一系列更新
                 if (need.containsKey(sChar)) {
                     window.put(sChar, window.getOrDefault(sChar, 0) + 1);
-                    if (window.get(sChar) == need.get(sChar)) {
+                    if (window.get(sChar).equals(need.get(sChar))) {
                         valid++;
                     }
                 }
@@ -97,7 +98,7 @@ public class MinimumWindowSubstring {
                     left++;
                     // 进行窗口内数据的一系列更新
                     if (need.containsKey(leftChar)){
-                        if (need.get(leftChar)==window.get(leftChar)){
+                        if (Objects.equals(need.get(leftChar), window.get(leftChar))){
                             valid--;
                         }
                         window.put(leftChar,window.get(leftChar)-1);
