@@ -29,6 +29,7 @@ public class MaximumSubarray {
             int[] dp=new int[nums.length];
             dp[0]=nums[0];
             for (int i = 1; i < nums.length; i++) {
+                //看看加前面的值值不值，是不是不如自己单干
                 dp[i]=Math.max(nums[i],dp[i-1]+nums[i]);
             }
             for (int i = 0; i < dp.length; i++) {
