@@ -37,50 +37,80 @@ import java.util.Queue;
 public class BinaryTreeLevelOrderTraversal {
 
     public static void main(String[] args) {
-        Solution solution=new BinaryTreeLevelOrderTraversal().new Solution();
+        Solution solution = new BinaryTreeLevelOrderTraversal().new Solution();
 
     }
- 
+
     //leetcode submit region begin(Prohibit modification and deletion)
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
- */
-class Solution {
-    public List<List<Integer>> levelOrder(TreeNode root) {
-        if(root==null){
-            return new ArrayList<>();
-        }
-        List<List<Integer>> resultList = new ArrayList<>();
-        Queue<TreeNode> queue=new LinkedList();
-        int size=1;
-        queue.add(root);
-        while (!queue.isEmpty()){
-            int temp=size;
-            size=0;
-            List<Integer> addNodeList = new ArrayList<>();
-            for (int i = 0; i < temp; i++) {
-                TreeNode node = queue.poll();
-                if(node.left!=null){
-                    queue.add(node.left);
-                    size++;
-                }
-                if(node.right!=null){
-                    queue.add(node.right);
-                    size++;
-                }
-                addNodeList.add(node.val);
+
+    /**
+     * Definition for a binary tree node.
+     * public class TreeNode {
+     * int val;
+     * TreeNode left;
+     * TreeNode right;
+     * TreeNode(int x) { val = x; }
+     * }
+     */
+    class Solution {
+
+        public List<List<Integer>> levelOrder(TreeNode root) {
+            List<List<Integer>> result = new ArrayList<>();
+            if (root == null) {
+                return result;
             }
-            resultList.add(addNodeList);
+            Queue<TreeNode> queue = new LinkedList<>();
+            queue.add(root);
+            // while 循环控制从上向下一层层遍历
+            while (!queue.isEmpty()) {
+                int size = queue.size();
+                //记录这一层的节点值
+                List<Integer> cellList = new ArrayList<>();
+                // for 循环控制每一层从左向右遍历
+                for (int i = 0; i < size; i++) {
+                    TreeNode node = queue.poll();
+                    cellList.add(node.val);
+                    if (node.left != null) {
+                        queue.add(node.left);
+                    }
+                    if (node.right != null) {
+                        queue.add(node.right);
+                    }
+                }
+                result.add(cellList);
+            }
+            return result;
         }
-        return resultList;
+
+        public List<List<Integer>> levelOrder1(TreeNode root) {
+            if (root == null) {
+                return new ArrayList<>();
+            }
+            List<List<Integer>> resultList = new ArrayList<>();
+            Queue<TreeNode> queue = new LinkedList();
+            int size = 1;
+            queue.add(root);
+            while (!queue.isEmpty()) {
+                int temp = size;
+                size = 0;
+                List<Integer> addNodeList = new ArrayList<>();
+                for (int i = 0; i < temp; i++) {
+                    TreeNode node = queue.poll();
+                    if (node.left != null) {
+                        queue.add(node.left);
+                        size++;
+                    }
+                    if (node.right != null) {
+                        queue.add(node.right);
+                        size++;
+                    }
+                    addNodeList.add(node.val);
+                }
+                resultList.add(addNodeList);
+            }
+            return resultList;
+        }
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
