@@ -17,7 +17,7 @@ import com.study.leetcode.ListNode;
 public class MergeTwoSortedLists {
 
     public static void main(String[] args) {
-        Solution solution=new MergeTwoSortedLists().new Solution();
+        Solution solution = new MergeTwoSortedLists().new Solution();
         ListNode node5 = new ListNode(5, null);
         ListNode node3 = new ListNode(3, node5);
         ListNode node1 = new ListNode(1, node3);
@@ -27,57 +27,50 @@ public class MergeTwoSortedLists {
         ListNode node4 = new ListNode(4, node6);
         ListNode node2 = new ListNode(2, node4);
 
-        solution.mergeTwoLists(node1,node2);
-
+        solution.mergeTwoLists(node1, node2);
 
 
     }
- 
+
     //leetcode submit region begin(Prohibit modification and deletion)
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
-class Solution {
-    ListNode dumpyNode=new ListNode(0,null);
-    ListNode resultListNode=dumpyNode;
 
-    ListNode l1;
-    ListNode l2;
-    public ListNode mergeTwoLists(ListNode node1, ListNode node2) {
-        l1=node1;
-        l2=node2;
-        while (l1!=null||l2!=null){
-            judge(l1,l2);
-        }
-        return dumpyNode.next;
-    }
-    public void judge(ListNode node1, ListNode node2){
-        if(node1!=null&&node2!=null){
-            if(node1.val>node2.val){
-                resultListNode.next=new ListNode(node2.val,null);
-                resultListNode=resultListNode.next;
-                l2=node2.next;
-            }else{
-                resultListNode.next=new ListNode(node1.val,null);
-                resultListNode=resultListNode.next;
-                l1=node1.next;
+    /**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     * int val;
+     * ListNode next;
+     * ListNode() {}
+     * ListNode(int val) { this.val = val; }
+     * ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+     * }
+     */
+    class Solution {
+        public ListNode mergeTwoLists(ListNode node1, ListNode node2) {
+            //虚拟头结点
+            ListNode dummy = new ListNode(-1);
+            ListNode p = dummy;
+            while (node1 != null && node2 != null) {
+                //比较节点两个指针
+                //将值较小的执行p指针
+                if (node1.val > node2.val) {
+                    p.next = node2;
+                    node2 = node2.next;
+                } else {
+                    p.next = node1;
+                    node1 = node1.next;
+                }
+                //p指针不断前进
+                p=p.next;
             }
-        }else if(node1==null&&node2!=null){
-            resultListNode.next=node2;
-            l2=null;
-        }else if(node1!=null&&node2==null){
-            resultListNode.next=node1;
-            l1=null;
+            if (node1 == null) {
+                p.next = node2;
+            }
+            if (node2 == null) {
+                p.next = node1;
+            }
+            return dummy.next;
         }
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
