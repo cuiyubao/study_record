@@ -78,12 +78,17 @@ public class LinkedListCycle {
      */
     public class Solution {
         public boolean hasCycle(ListNode head) {
-            ListNode slow=head;
-            ListNode fast=head;
-            while (fast!=null&&fast.next!=null){
-                slow=slow.next;
-                fast=fast.next.next;
-                if (slow==fast){
+            //快慢指针初始化指向head
+            ListNode slow = head;
+            ListNode fast = head;
+            //快指针走到末尾时停止
+            while (fast != null && fast.next != null) {
+                //慢指针每次走一步
+                slow = slow.next;
+                //快指针每次走两步
+                fast = fast.next.next;
+                //快慢指针相遇说明有环
+                if (slow == fast) {
                     return true;
                 }
             }
