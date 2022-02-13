@@ -39,12 +39,30 @@ public class BestTimeToBuyAndSellStock {
 
     public static void main(String[] args) {
         Solution solution=new BestTimeToBuyAndSellStock().new Solution();
-        solution.maxProfit(new int[]{7,6,4,3,1});
+        solution.maxProfit(new int[]{7,1,5,3,6,4});
     }
  
     //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int maxProfit(int[] prices) {
+        int len = prices.length;
+        //本质是把所有可能都列举出来, 数组第二位表示：0表示没有持有;1表示持有
+        int[][] dp=new int[len][2];
+        //第一天不操作：收益为0
+        dp[0][0]=0;
+        //第一天操作: 主持prices[0]的钱
+        dp[0][1]=-prices[0];
+        for (int i = 1; i < len; i++) {
+            //       Math.max(今天选择不操作，今天选择卖出)
+            dp[i][0]=Math.max(dp[i-1][0],dp[i-1][1]+prices[i]);
+            //       Math.max(今天选择不操作，今天选择买入)   备注：因为只能买卖一次，所以是-prices[i]
+            dp[i][1]=Math.max(dp[i-1][1],-prices[i]);
+        }
+        //最终返回最后一天不持有股票的赚的金额
+        return dp[len-1][0];
+    }
+
+    public int maxProfit1(int[] prices) {
         if (prices == null||prices.length==0) {
             return 0;
         }
