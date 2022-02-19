@@ -67,6 +67,9 @@ public class BinaryTreeZigzagLevelOrderTraversal {
     class Solution {
         public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
             List<List<Integer>> result = new ArrayList<>();
+            if (root==null){
+                return result;
+            }
             Queue<TreeNode> queue = new LinkedList<>();
             queue.add(root);
             //true时向右, false时向左
