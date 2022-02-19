@@ -57,10 +57,13 @@ public class NumberOfIslands {
             int result = 0;
             int x = grid.length;
             int y = grid[0].length;
+            //遍历grid
             for (int i = 0; i < x; i++) {
                 for (int j = 0; j < y; j++) {
                     if (grid[i][j] == '1') {
+                        //每发现一个岛屿，岛屿数量加1
                         result++;
+                        //然后使用dfs将岛屿淹没
                         dfs(grid,i,j);
                     }
                 }
@@ -72,12 +75,16 @@ public class NumberOfIslands {
             int m = grid.length;
             int n = grid[0].length;
             if (x > m - 1 || x < 0 || y < 0 || y > n - 1) {
+                //超出索引边界
                 return;
             }
+            // 已经是海水了
             if (grid[x][y] == '0') {
                 return;
             }
+            //将(i,j)变成海水
             grid[x][y] = '0';
+            //淹没上下左右的陆地
             dfs(grid, x + 1, y);
             dfs(grid, x - 1, y);
             dfs(grid, x, y + 1);
