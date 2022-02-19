@@ -63,13 +63,18 @@ public class NumberOfClosedIslands {
             int m = grid.length;
             int n = grid[0].length;
             for (int i = 0; i < m; i++) {
+                // 把靠左边的岛屿淹掉
                 dfs(grid, i, 0);
+                //把靠右边的岛屿淹掉
                 dfs(grid, i, n - 1);
             }
             for (int i = 0; i < n; i++) {
+                // 把靠上边的岛屿淹掉
                 dfs(grid, 0, i);
+                // 把靠下边的岛屿淹掉
                 dfs(grid, m - 1, i);
             }
+            // 遍历 grid，剩下的岛屿都是封闭岛屿
             for (int i = 0; i < m; i++) {
                 for (int j = 0; j < n; j++) {
                     if (grid[i][j] == 0) {
@@ -81,6 +86,7 @@ public class NumberOfClosedIslands {
             return result;
         }
 
+        // 从 (i, j) 开始，将与之相邻的陆地都变成海水
         public void dfs(int[][] grid, int i, int j) {
             int m = grid.length;
             int n = grid[0].length;
@@ -88,6 +94,7 @@ public class NumberOfClosedIslands {
                 //边界
                 return;
             }
+            // 将 (i, j) 变成海水
             if (grid[i][j] == 1) {
                 return;
             }
