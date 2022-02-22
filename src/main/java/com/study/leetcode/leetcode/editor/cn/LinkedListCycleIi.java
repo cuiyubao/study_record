@@ -89,6 +89,32 @@ public class LinkedListCycleIi {
      * }
      */
     public class Solution {
+
+
+        public ListNode detectCycle(ListNode head) {
+            ListNode slow = head;
+            ListNode fast = head;
+            while (fast != null && fast.next != null) {
+                slow = slow.next;
+                fast = fast.next.next;
+                if (slow == fast) {
+                    break;
+                }
+            }
+            if (fast == null || fast.next == null) {
+                //fast遇到空指针说明没环
+                return null;
+            }
+            //重新指向头结点
+            slow = head;
+            //快慢指针同步前进，相交点就是环起点
+            while (slow != fast) {
+                slow = slow.next;
+                fast = fast.next;
+            }
+            return slow;
+        }
+
         /**
          * 使用双指针[伪双指针，官方题解中的双指针对比快慢指针走的路程分析]
          *
@@ -99,27 +125,28 @@ public class LinkedListCycleIi {
             if (head == null || head.next == null) {
                 return null;
             }
-            ListNode checkNode=head;
-            while (checkNode!=null){
+            ListNode checkNode = head;
+            while (checkNode != null) {
                 ListNode check = check(checkNode);
-                if(check==null){
-                    checkNode=checkNode.next;
-                }else{
+                if (check == null) {
+                    checkNode = checkNode.next;
+                } else {
                     return check;
                 }
             }
             return null;
         }
-        public ListNode check(ListNode checkNode){
-            int number=0;
-            ListNode node=checkNode.next;
-            while(node!=null){
-                if(checkNode==node){
+
+        public ListNode check(ListNode checkNode) {
+            int number = 0;
+            ListNode node = checkNode.next;
+            while (node != null) {
+                if (checkNode == node) {
                     return checkNode;
                 }
-                node=node.next;
+                node = node.next;
                 number++;
-                if(number>10000){
+                if (number > 10000) {
                     break;
                 }
             }
@@ -132,7 +159,7 @@ public class LinkedListCycleIi {
          * @param head
          * @return
          */
-        public ListNode detectCycle(ListNode head) {
+        public ListNode detectCycle2(ListNode head) {
             if (head == null || head.next == null) {
                 return null;
             }
