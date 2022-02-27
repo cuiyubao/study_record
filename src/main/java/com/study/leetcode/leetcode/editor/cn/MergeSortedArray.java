@@ -67,19 +67,23 @@ public class MergeSortedArray {
             int index = m + n - 1;
             int i = m - 1;
             int j = n - 1;
-
-            while (i >= 0 || j >= 0) {
-                if (i < 0 && j >= 0) {
-                    nums1[index--] = nums2[j--];
-                } else if (j < 0) {
-                    return;
+           //从尾部开始
+            while (i >= 0 && j >= 0) {
+                if (nums1[i] > nums2[j]) {
+                    nums1[index] = nums1[i];
+                    index--;
+                    i--;
                 } else {
-                    if (nums1[i] > nums2[j]) {
-                        nums1[index--] = nums1[i--];
-                    } else {
-                        nums1[index--] = nums2[j--];
-                    }
+                    nums1[index] = nums2[j];
+                    index--;
+                    j--;
                 }
+            }
+            //复制B
+            while (j>=0){
+                nums1[index] = nums2[j];
+                index--;
+                j--;
             }
         }
 
